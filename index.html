@@ -84,6 +84,131 @@
             color: #f0e6d2;
         }
 
+        /* Authentication Modal Styles */
+        .auth-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .auth-container {
+            background: linear-gradient(135deg, #000, #1a1a1a);
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            padding: 40px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            color: #d4af37;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .auth-logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #d4af37;
+        }
+
+        .auth-tagline {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            color: #f0e6d2;
+        }
+
+        .auth-select,
+        .auth-input {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 10px 0;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #d4af37;
+            border-radius: 5px;
+            color: #d4af37;
+            font-size: 1rem;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23d4af37' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 12px;
+        }
+
+        .auth-select option {
+            background: #000;
+            color: #d4af37;
+            padding: 10px;
+        }
+
+        .auth-input::placeholder {
+            color: rgba(212, 175, 55, 0.6);
+        }
+
+        .auth-select:focus,
+        .auth-input:focus {
+            outline: none;
+            border-color: #f0e6d2;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 12px;
+            background: #d4af37;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .auth-button:hover {
+            background: #f0e6d2;
+            transform: translateY(-2px);
+        }
+
+        .auth-error {
+            color: #ff6b6b;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .auth-info {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: rgba(212, 175, 55, 0.7);
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #d4af37;
+            cursor: pointer;
+        }
+
+        /* Hide main content when auth is required */
+        .main-content {
+            display: none;
+        }
+
         /* Updated Filter Styles - Simple Button Layout */
         .sticky-filter {
             position: sticky;
@@ -583,6 +708,37 @@
 
 <body>
     <div class="container">
+        <!-- Authentication Modal -->
+        <div class="auth-modal" id="authModal">
+            <div class="auth-container">
+                <div class="auth-logo">FAROOQUI</div>
+                <div class="auth-tagline">A choice that reflects true distinction</div>
+
+                <form id="loginForm">
+                    <select class="auth-select" id="username" required>
+                        <option value="owner">Owner</option>
+                        <option value="client">Client</option>
+                        <option value="guest">Guest</option>
+                    </select>
+
+                    <div class="password-container">
+                        <input type="password" class="auth-input" id="password" placeholder="Enter Password" required>
+                        <button type="button" class="toggle-password" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+
+                    <button type="submit" class="auth-button">Enter Catalog</button>
+                    <div class="auth-error" id="authError">
+                        Invalid password. Please try again.
+                    </div>
+                </form>
+
+                <div class="auth-info">
+                    Select user type and enter corresponding password
+                </div>
+            </div>
+        </div>
         <header>
             <div class="logo">FAROOQUI</div>
             <div class="tagline">A choice that reflects true distinction</div>
@@ -613,6 +769,8 @@
                 <button class="filter-category-btn" data-category="kurta-jacket">Kurta Jacket</button>
                 <button class="filter-category-btn" data-category="kurta-chicken">Kurta: Chicken</button>
                 <button class="filter-category-btn" data-category="kurta-pintex">Kurta: Pintex</button>
+                <button class="filter-category-btn" data-category="suits-party">Suits: Party Wear</button>
+                <button class="filter-category-btn" data-category="suits-tuxedo">Suits: Tuxedo</button>
             </div>
         </div>
 
@@ -636,9 +794,9 @@
                                 <div class="slider">
                                     <img src="Collections\Sherwani\SH25001\Front.jpg" alt="Royal Farma Sherwani"
                                         loading="lazy" decoding="async">
-                                    <img src="Collections\Sherwani\SH25001\Back.jpg" alt="Royal Farma Sherwani Back"
+                                    <img src="Collections\Sherwani\SH25001\Zoom.jpg" alt="Royal Farma Sherwani Back"
                                         loading="lazy" decoding="async">
-                                    <img src="Collections\Sherwani\SH25001\Zoom.jpg" alt="Royal Farma Sherwani Zoom"
+                                    <img src="Collections\Sherwani\SH25001\Back.jpg" alt="Royal Farma Sherwani Zoom"
                                         loading="lazy" decoding="async">
                                 </div>
                                 <div class="slider-arrow prev"><i class="fas fa-chevron-left"></i></div>
@@ -2582,6 +2740,418 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Suits: Part Wear -->
+            <section class="category" data-category="suits-party">
+                <div class="category-header">
+                    <i class="fas fa-tshirt"></i>
+                    <h2>Suits: Party Wear</h2>
+                </div>
+                <div class="products">
+                    <div class="product">
+                        <div class="product-image">
+                            <div class="slider-container" data-slider-id="11">
+                                <div class="design-number">Design #PS25001</div>
+                                <div class="zoom-controls">
+                                    <div class="zoom-btn" title="Zoom In">
+                                        <i class="fas fa-search-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="slider">
+                                    <img src="Collections\Suit\Party\PS25001\Front.jpg" alt="Suits Party"
+                                        loading="lazy" decoding="async">
+                                    <!-- <img src="Collections\Suit\Party\PS25001\Zoom.jpg" alt="Pintex Kurta Back"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25001\Back.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25001\Inner.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async"> -->
+                                </div>
+                                <div class="slider-arrow prev"><i class="fas fa-chevron-left" ></i></div>
+                                <div class="slider-arrow next"><i class="fas fa-chevron-right"></i></div>
+                                <div class="slider-nav">
+                                    <div class="slider-dot active"></div>
+                                    <div class="slider-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product-image">
+                            <div class="slider-container" data-slider-id="11">
+                                <div class="design-number">Design #PS25002</div>
+                                <div class="zoom-controls">
+                                    <div class="zoom-btn" title="Zoom In">
+                                        <i class="fas fa-search-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="slider">
+                                    <img src="Collections\Suit\Party\PS25002\Front.jpg" alt="Suits Party"
+                                        loading="lazy" decoding="async">
+                                    <!-- <img src="Collections\Suit\Party\PS25001\Zoom.jpg" alt="Pintex Kurta Back"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25001\Back.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25001\Inner.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async"> -->
+                                </div>
+                                <div class="slider-arrow prev"><i class="fas fa-chevron-left" ></i></div>
+                                <div class="slider-arrow next"><i class="fas fa-chevron-right"></i></div>
+                                <div class="slider-nav">
+                                    <div class="slider-dot active"></div>
+                                    <div class="slider-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product-image">
+                            <div class="slider-container" data-slider-id="11">
+                                <div class="design-number">Design #PS25003</div>
+                                <div class="zoom-controls">
+                                    <div class="zoom-btn" title="Zoom In">
+                                        <i class="fas fa-search-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="slider">
+                                    <img src="Collections\Suit\Party\PS25003\Front.jpg" alt="Suits Party"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25003\Zoom.jpg" alt="Pintex Kurta Back"
+                                        loading="lazy" decoding="async">
+                                    <!-- <img src="Collections\Suit\Party\PS25001\Back.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25001\Inner.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async"> -->
+                                </div>
+                                <div class="slider-arrow prev"><i class="fas fa-chevron-left" ></i></div>
+                                <div class="slider-arrow next"><i class="fas fa-chevron-right"></i></div>
+                                <div class="slider-nav">
+                                    <div class="slider-dot active"></div>
+                                    <div class="slider-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product-image">
+                            <div class="slider-container" data-slider-id="11">
+                                <div class="design-number">Design #PS25004</div>
+                                <div class="zoom-controls">
+                                    <div class="zoom-btn" title="Zoom In">
+                                        <i class="fas fa-search-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="slider">
+                                    <img src="Collections\Suit\Party\PS25004\Front.jpg" alt="Suits Party"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25004\Zoom.jpg" alt="Pintex Kurta Back"
+                                        loading="lazy" decoding="async">
+                                    <!-- <img src="Collections\Suit\Party\PS25004\Back.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25004\Inner.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async"> -->
+                                </div>
+                                <div class="slider-arrow prev"><i class="fas fa-chevron-left" ></i></div>
+                                <div class="slider-arrow next"><i class="fas fa-chevron-right"></i></div>
+                                <div class="slider-nav">
+                                    <div class="slider-dot active"></div>
+                                    <div class="slider-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product-image">
+                            <div class="slider-container" data-slider-id="11">
+                                <div class="design-number">Design #PS25005</div>
+                                <div class="zoom-controls">
+                                    <div class="zoom-btn" title="Zoom In">
+                                        <i class="fas fa-search-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="slider">
+                                    <img src="Collections\Suit\Party\PS25005\Front.jpg" alt="Suits Party"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25005\Zoom.jpg" alt="Pintex Kurta Back"
+                                        loading="lazy" decoding="async">
+                                    <!-- <img src="Collections\Suit\Party\PS25001\Back.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25001\Inner.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async"> -->
+                                </div>
+                                <div class="slider-arrow prev"><i class="fas fa-chevron-left" ></i></div>
+                                <div class="slider-arrow next"><i class="fas fa-chevron-right"></i></div>
+                                <div class="slider-nav">
+                                    <div class="slider-dot active"></div>
+                                    <div class="slider-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product-image">
+                            <div class="slider-container" data-slider-id="11">
+                                <div class="design-number">Design #PS25006</div>
+                                <div class="zoom-controls">
+                                    <div class="zoom-btn" title="Zoom In">
+                                        <i class="fas fa-search-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="slider">
+                                    <img src="Collections\Suit\Party\PS25006\Front.jpg" alt="Suits Party"
+                                        loading="lazy" decoding="async">
+                                    <!-- <img src="Collections\Suit\Party\PS25001\Zoom.jpg" alt="Pintex Kurta Back"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25001\Back.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25001\Inner.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async"> -->
+                                </div>
+                                <div class="slider-arrow prev"><i class="fas fa-chevron-left" ></i></div>
+                                <div class="slider-arrow next"><i class="fas fa-chevron-right"></i></div>
+                                <div class="slider-nav">
+                                    <div class="slider-dot active"></div>
+                                    <div class="slider-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product-image">
+                            <div class="slider-container" data-slider-id="11">
+                                <div class="design-number">Design #PS25007</div>
+                                <div class="zoom-controls">
+                                    <div class="zoom-btn" title="Zoom In">
+                                        <i class="fas fa-search-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="slider">
+                                    <img src="Collections\Suit\Party\PS25007\Front.jpg" alt="Suits Party"
+                                        loading="lazy" decoding="async">
+                                    <!-- <img src="Collections\Suit\Party\PS25001\Zoom.jpg" alt="Pintex Kurta Back"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25001\Back.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25001\Inner.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async"> -->
+                                </div>
+                                <div class="slider-arrow prev"><i class="fas fa-chevron-left" ></i></div>
+                                <div class="slider-arrow next"><i class="fas fa-chevron-right"></i></div>
+                                <div class="slider-nav">
+                                    <div class="slider-dot active"></div>
+                                    <div class="slider-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product-image">
+                            <div class="slider-container" data-slider-id="11">
+                                <div class="design-number">Design #PS25008</div>
+                                <div class="zoom-controls">
+                                    <div class="zoom-btn" title="Zoom In">
+                                        <i class="fas fa-search-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="slider">
+                                    <img src="Collections\Suit\Party\PS25008\Front.jpg" alt="Suits Party"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25008\Zoom.jpg" alt="Pintex Kurta Back"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25008\Back.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async">
+                                    <!-- <img src="Collections\Suit\Party\PS25001\Inner.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async"> -->
+                                </div>
+                                <div class="slider-arrow prev"><i class="fas fa-chevron-left" ></i></div>
+                                <div class="slider-arrow next"><i class="fas fa-chevron-right"></i></div>
+                                <div class="slider-nav">
+                                    <div class="slider-dot active"></div>
+                                    <div class="slider-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product-image">
+                            <div class="slider-container" data-slider-id="11">
+                                <div class="design-number">Design #PS25009</div>
+                                <div class="zoom-controls">
+                                    <div class="zoom-btn" title="Zoom In">
+                                        <i class="fas fa-search-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="slider">
+                                    <img src="Collections\Suit\Party\PS25009\Front.jpg" alt="Suits Party"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25009\Zoom.jpg" alt="Pintex Kurta Back"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25009\Back.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25009\Inner.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async">
+                                </div>
+                                <div class="slider-arrow prev"><i class="fas fa-chevron-left" ></i></div>
+                                <div class="slider-arrow next"><i class="fas fa-chevron-right"></i></div>
+                                <div class="slider-nav">
+                                    <div class="slider-dot active"></div>
+                                    <div class="slider-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product-image">
+                            <div class="slider-container" data-slider-id="11">
+                                <div class="design-number">Design #PS25010</div>
+                                <div class="zoom-controls">
+                                    <div class="zoom-btn" title="Zoom In">
+                                        <i class="fas fa-search-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="slider">
+                                    <img src="Collections\Suit\Party\PS25010\Front.jpg" alt="Suits Party"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25010\Zoom.jpg" alt="Pintex Kurta Back"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25010\Back.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25010\Inner.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async">
+                                </div>
+                                <div class="slider-arrow prev"><i class="fas fa-chevron-left" ></i></div>
+                                <div class="slider-arrow next"><i class="fas fa-chevron-right"></i></div>
+                                <div class="slider-nav">
+                                    <div class="slider-dot active"></div>
+                                    <div class="slider-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product-image">
+                            <div class="slider-container" data-slider-id="11">
+                                <div class="design-number">Design #PS25011</div>
+                                <div class="zoom-controls">
+                                    <div class="zoom-btn" title="Zoom In">
+                                        <i class="fas fa-search-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="slider">
+                                    <img src="Collections\Suit\Party\PS25011\Front.jpg" alt="Suits Party"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25011\Zoom.jpg" alt="Pintex Kurta Back"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25011\Back.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25011\Inner.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async">
+                                </div>
+                                <div class="slider-arrow prev"><i class="fas fa-chevron-left" ></i></div>
+                                <div class="slider-arrow next"><i class="fas fa-chevron-right"></i></div>
+                                <div class="slider-nav">
+                                    <div class="slider-dot active"></div>
+                                    <div class="slider-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product-image">
+                            <div class="slider-container" data-slider-id="11">
+                                <div class="design-number">Design #PS25012</div>
+                                <div class="zoom-controls">
+                                    <div class="zoom-btn" title="Zoom In">
+                                        <i class="fas fa-search-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="slider">
+                                    <img src="Collections\Suit\Party\PS25012\Front.jpg" alt="Suits Party"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25012\Zoom.jpg" alt="Pintex Kurta Back"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25012\Back.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async">
+                                    <!-- <img src="Collections\Suit\Party\PS25001\Inner.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async"> -->
+                                </div>
+                                <div class="slider-arrow prev"><i class="fas fa-chevron-left" ></i></div>
+                                <div class="slider-arrow next"><i class="fas fa-chevron-right"></i></div>
+                                <div class="slider-nav">
+                                    <div class="slider-dot active"></div>
+                                    <div class="slider-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Suits: Tuxedo -->
+            <section class="category" data-category="suits-tuxedo">
+                <div class="category-header">
+                    <i class="fas fa-tshirt"></i>
+                    <h2>Suits: Tuxedo</h2>
+                </div>
+                <div class="products">
+                    <div class="product">
+                        <div class="product-image">
+                            <div class="slider-container" data-slider-id="11">
+                                <div class="design-number">Design #TS25001</div>
+                                <div class="zoom-controls">
+                                    <div class="zoom-btn" title="Zoom In">
+                                        <i class="fas fa-search-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="slider">
+                                    <img src="Collections\Suit\Tuxedo\TS25001\Front.jpg" alt="Suits Party"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Tuxedo\TS25001\Zoom.jpg" alt="Pintex Kurta Back"
+                                        loading="lazy" decoding="async">
+                                    <!-- <img src="Collections\Suit\Party\PS25001\Back.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25001\Inner.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async"> -->
+                                </div>
+                                <div class="slider-arrow prev"><i class="fas fa-chevron-left" ></i></div>
+                                <div class="slider-arrow next"><i class="fas fa-chevron-right"></i></div>
+                                <div class="slider-nav">
+                                    <div class="slider-dot active"></div>
+                                    <div class="slider-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product-image">
+                            <div class="slider-container" data-slider-id="11">
+                                <div class="design-number">Design #TS25002</div>
+                                <div class="zoom-controls">
+                                    <div class="zoom-btn" title="Zoom In">
+                                        <i class="fas fa-search-plus"></i>
+                                    </div>
+                                </div>
+                                <div class="slider">
+                                    <img src="Collections\Suit\Tuxedo\TS25002\Front.jpg" alt="Suits Party"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Tuxedo\TS25002\Zoom.jpg" alt="Pintex Kurta Back"
+                                        loading="lazy" decoding="async">
+                                    <!-- <img src="Collections\Suit\Party\PS25001\Back.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async">
+                                    <img src="Collections\Suit\Party\PS25001\Inner.jpg" alt="Pintex Kurta Variation"
+                                        loading="lazy" decoding="async"> -->
+                                </div>
+                                <div class="slider-arrow prev"><i class="fas fa-chevron-left" ></i></div>
+                                <div class="slider-arrow next"><i class="fas fa-chevron-right"></i></div>
+                                <div class="slider-nav">
+                                    <div class="slider-dot active"></div>
+                                    <div class="slider-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <footer>
@@ -2639,6 +3209,95 @@
     </div>
 
     <script>
+        // User credentials - same as your original
+        const VALID_CREDENTIALS = [
+            { username: "owner", password: "farooqui2025" },
+            { username: "client", password: "client" },
+            { username: "guest", password: "guest" }
+        ];
+
+        // Password toggle functionality
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorElement = document.getElementById('authError');
+
+            // Check if username is selected
+            if (!username) {
+                errorElement.textContent = "Please select user type from the list";
+                errorElement.style.display = 'block';
+                return;
+            }
+
+            // Check credentials
+            const isValid = VALID_CREDENTIALS.some(cred =>
+                cred.username === username && cred.password === password
+            );
+
+            if (isValid) {
+                // Successful login
+                document.getElementById('authModal').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+
+                // Store authentication status in sessionStorage
+                sessionStorage.setItem('authenticated', 'true');
+                sessionStorage.setItem('userType', username);
+            } else {
+                // Failed login
+                errorElement.textContent = "Invalid password. Please try again.";
+                errorElement.style.display = 'block';
+                document.getElementById('password').value = '';
+                document.getElementById('password').focus();
+            }
+        });
+
+        // Check if already authenticated
+        document.addEventListener('DOMContentLoaded', function () {
+            if (sessionStorage.getItem('authenticated') === 'true') {
+                document.getElementById('authModal').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+            } else {
+                document.getElementById('authModal').style.display = 'flex';
+                document.getElementById('mainContent').style.display = 'none';
+            }
+        });
+
+        // Auto-focus on password when username is selected
+        document.getElementById('username').addEventListener('change', function () {
+            if (this.value) {
+                document.getElementById('password').focus();
+            }
+        });
+
+        // Enter key support - submit form when Enter is pressed in password field
+        document.getElementById('password').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+            }
+        });
+
+        // Clear error when user starts typing
+        document.getElementById('password').addEventListener('input', function () {
+            document.getElementById('authError').style.display = 'none';
+        });
         // Image Loading Optimization
         function optimizeImageLoading() {
             const sliders = document.querySelectorAll('.slider-container');
